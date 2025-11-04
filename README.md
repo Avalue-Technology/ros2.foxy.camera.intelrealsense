@@ -153,17 +153,17 @@ source install/setup.bash
 ```
 
 # Usage
-## Start Camera Node in ROS
+## Start Camera Node in ROS2
 ```bash
 ros2 launch realsense2_camera rs_launch.py
 ```
 
-## Start Camera Node in ROS with parameters specified in rs_launch.py, for example - pointcloud enabled
+## Start Camera Node in ROS2 with parameters specified in rs_launch.py, for example - pointcloud enabled
 ```bash
 ros2 launch realsense2_camera rs_launch.py enable_pointcloud:=true device_type:=d435
 ```
 
-## Start Camera Node in ROS without using the supplement launch files
+## Start Camera Node in ROS2 without using the supplement launch files
 ```bash
 ros2 run realsense2_camera realsense2_camera_node --ros-args -p filters:=colorizer
 ```
@@ -171,6 +171,20 @@ ros2 run realsense2_camera realsense2_camera_node --ros-args -p filters:=coloriz
 ## Start Camera Node in RGB Topic
 ```bash
 ros2 launch realsense2_camera rs_launch.py enable_rgbd:=true enable_sync:=true align_depth.enable:=true enable_color:=true enable_depth:=true 
+```
+
+# Optional ROS2 Node
+If you need to compress Intel® RealSense™ ROS2 Camera View, consider to install as follows package.
+
+```bash
+sudo apt install ros-foxy-image-transport 
+sudo apt install ros-foxy-image-transport-plugins
+
+# Configure ROS2 Foxy Environment
+source /opt/ros/foxy/setup.bash
+
+# Launch Image Transport  Node
+ros2 run image_transport republish raw in:=/camera/color/image_raw compressed out:=/camera/color/image_raw/compressed
 ```
 
 # Reference.
