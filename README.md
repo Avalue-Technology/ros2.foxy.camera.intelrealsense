@@ -41,6 +41,7 @@ sudo systemctl status ssh --no-pager
 sudo dpkg --configure -a
 sudo apt-get -f install
 ```
+
 ## Step 1: Install the ROS2 distribution (Install ROS2 foxy - Ubuntu 20.04)
 ```bash
 ROS_DISTRO=foxy
