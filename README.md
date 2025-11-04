@@ -174,7 +174,7 @@ ros2 launch realsense2_camera rs_launch.py enable_rgbd:=true enable_sync:=true a
 ```
 
 # Optional Installation - ROS2 Image Transport Node
-If you need to compress Intel® RealSense™ ROS2 Camera View, consider to install as follows package.
+If you need to compress Intel® RealSense™ ROS2 Camera View, consider to install as follows packages.
 
 ```bash
 sudo apt install ros-foxy-image-transport 
