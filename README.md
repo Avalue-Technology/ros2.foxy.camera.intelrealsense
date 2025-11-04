@@ -173,7 +173,7 @@ ros2 run realsense2_camera realsense2_camera_node --ros-args -p filters:=coloriz
 ros2 launch realsense2_camera rs_launch.py enable_rgbd:=true enable_sync:=true align_depth.enable:=true enable_color:=true enable_depth:=true 
 ```
 
-# Optional ROS2 Node
+# Optional Installation - ROS2 Image Transport Node
 If you need to compress Intel® RealSense™ ROS2 Camera View, consider to install as follows package.
 
 ```bash
