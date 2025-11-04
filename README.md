@@ -183,7 +183,7 @@ sudo apt install ros-foxy-image-transport-plugins
 # Configure ROS2 Foxy Environment
 source /opt/ros/foxy/setup.bash
 
-# Launch Image Transport  Node
+# Launch Image Transport Node
 ros2 run image_transport republish raw in:=/camera/color/image_raw compressed out:=/camera/color/image_raw/compressed
 ```
 
