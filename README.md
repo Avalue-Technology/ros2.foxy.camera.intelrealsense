@@ -55,6 +55,8 @@ cd ~/ros2_ws
 
 ## Step 3: Install Dependencies
 ```bash
+cd ~/ros2_ws
+
 source /opt/ros/foxy/setup.bash
 
 sudo apt-get update
@@ -67,8 +69,6 @@ sudo apt-get install -y ros-foxy-xacro
 
 sudo rosdep init
 rosdep update
-# rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y
-# rosdep install --from-path src --ignore-src -y
 rosdep install --from-paths src --ignore-src -r -y --rosdistro foxy --skip-keys "librealsense2"
 ```
 
@@ -92,7 +92,7 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 # Check Intel RealSense
 rs-enumerate-devices
 
-# Verify Intel RealSense
+# View Intel RealSense
 realsense-viewer
 ```
 
