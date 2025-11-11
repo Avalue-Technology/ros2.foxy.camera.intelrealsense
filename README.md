@@ -78,6 +78,8 @@ rosdep install --from-paths src --ignore-src -r -y --rosdistro foxy --skip-keys 
 colcon build --symlink-install --packages-select realsense2_description realsense2_camera realsense2_camera_msgs
 
 # Setup Intel® RealSense™ ROS2 Environment
+source /opt/ros/foxy/setup.bash
+cd ~/ros2_ws
 source install/setup.bash
 
 # Create Intel® RealSense™ ROS2 UDEV Rule
@@ -92,11 +94,6 @@ rs-enumerate-devices
 
 # Verify Intel RealSense
 realsense-viewer
-
-# Launch Intel RealSense
-source /opt/ros/foxy/setup.bash
-cd ~/ros2_ws
-source install/setup.bash
 ```
 
 # Usage
