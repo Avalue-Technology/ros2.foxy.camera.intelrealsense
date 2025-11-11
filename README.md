@@ -1,5 +1,6 @@
 # Introduction
-This article primarily introduces how to install ROS2 Foxy and Intel® RealSense™ ROS2 on the AIB-NW01 Ubuntu 20.04 environment provided by Avalue Technology Inc.
+This article primarily introduces how to install Intel® RealSense™ ROS2 on the AIB-NW01 Ubuntu 20.04 environment provided by Avalue Technology Inc.
+These are packages for using Intel® RealSense™ cameras D400 and L500 series, SR300 camera and T265 Tracking Module with ROS2.
 
 # Install GLU
 ```bash
@@ -17,75 +18,11 @@ source /etc/profile.d/cuda.sh
 export CUDACXX=/usr/local/cuda/bin/nvcc
 nvcc --version
 ```
+## Step 1: Install ROS2 foxy, on Ubuntu 20.04
+If your target machine does not yet have ROS2 Foxy installed, please refer to the following documentation for installation instructions.
+Reference - [ros2.foxy.aib-nw01](https://github.com/AlexChang633/ros2.foxy.aib-nw01 "ros2.foxy.aib-nw01")
 
-# Fix SSH Issue
-```bash
-sudo dpkg-reconfigure openssh-server
-
-sudo mkdir -p /etc/ssh
-sudo ssh-keygen -A
-
-sudo chown -R root:root /etc/ssh
-sudo chmod 755 /etc/ssh
-sudo chmod 600 /etc/ssh/ssh_host_*_key
-sudo chmod 644 /etc/ssh/ssh_host_*_key.pub
-
-sudo mkdir -p /run/sshd
-sudo chown root:root /run/sshd
-sudo chmod 755 /run/sshd
-
-sudo /usr/sbin/sshd -t
-sudo systemctl restart ssh
-sudo systemctl status ssh --no-pager
-
-sudo dpkg --configure -a
-sudo apt-get -f install
-```
-
-## Step 1: Install the ROS2 distribution (Install ROS2 foxy - Ubuntu 20.04)
-```bash
-ROS_DISTRO=foxy
-sudo apt update && sudo apt install curl gnupg2 lsb-release
-curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture)] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list'
-sudo apt update
-sudo apt install ros-$ROS_DISTRO-ros-base
-
-# Environment setup
-echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
-source ~/.bashrc
-
-sudo apt install python3-colcon-common-extensions -y
-
-sudo apt install python3-colcon-common-extensions -y
-
-# Install argcomplete (optional)
-sudo apt install python3-argcomplete
-```
-
-## Step 2: Install librealsense2
-```bash
-# Install the latest Intel® RealSense™ SDK 2.0
-sudo mkdir -p /etc/apt/keyrings
-curl -sSf https://librealsense.intel.com/Debian/librealsense.pgp | sudo tee /etc/apt/keyrings/librealsense.pgp > /dev/null
-
-sudo apt-get install apt-transport-https
-
-echo "deb [signed-by=/etc/apt/keyrings/librealsense.pgp] https://librealsense.intel.com/Debian/apt-repo `lsb_release -cs` main" | \
-sudo tee /etc/apt/sources.list.d/librealsense.list
-sudo apt-get update
-
-sudo apt-get install librealsense2-dkms
-sudo apt-get install librealsense2-utils
-
-sudo apt-get install librealsense2-dev
-sudo apt-get install librealsense2-dbg
-
-sudo apt-get update
-sudo apt-get upgrade
-```
-
-## Step 3: Install Intel® RealSense™ ROS2 wrapper from Sources
+## Step 2: Build librealsense2, Install Intel® RealSense™ ROS2 wrapper from Sources
 ```bash
 sudo apt-get update
 sudo apt-get install -y git cmake build-essential libssl-dev libusb-1.0-0-dev libgtk-3-dev libglfw3-dev pkg-config udev
@@ -109,7 +46,6 @@ ldconfig -p | grep librealsense2
 
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws/src
-cd ~/ros2_ws/src
 git clone https://github.com/IntelRealSense/realsense-ros.git
 cd realsense-ros
 # The version 4.0.4 supports Foxy and corresponds to libRS v2.50.0
@@ -117,7 +53,7 @@ git checkout 4.0.4
 cd ~/ros2_ws
 ```
 
-## Step 4: Install Dependencies
+## Step 3: Install Dependencies
 ```bash
 source /opt/ros/foxy/setup.bash
 
@@ -136,13 +72,23 @@ rosdep update
 rosdep install --from-paths src --ignore-src -r -y --rosdistro foxy --skip-keys "librealsense2"
 ```
 
-## Step 5: Build Install Intel® RealSense™ ROS2
+## Step 4: Build Install Intel® RealSense™ ROS2
 ```bash
 # colcon build
 colcon build --symlink-install --packages-select realsense2_description realsense2_camera realsense2_camera_msgs
 
-# Step 6: Source (on each new terminal)
+# Setup Intel® RealSense™ ROS2 Environment
 source install/setup.bash
+
+# Create Intel® RealSense™ ROS2 UDEV Rule
+# Reference - [99-realsense-libusb.rules] (https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules "99-realsense-libusb.rules")
+sudo nano /etc/udev/rules.d/99-realsense-libusb.rules
+
+# Reload UDEV Rule
+sudo udevadm control --reload-rules && sudo udevadm trigger
+
+# Check Intel RealSense
+rs-enumerate-devices
 
 # Verify Intel RealSense
 realsense-viewer
