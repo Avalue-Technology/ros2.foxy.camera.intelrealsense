@@ -77,11 +77,6 @@ rosdep install --from-paths src --ignore-src -r -y --rosdistro foxy --skip-keys 
 # colcon build
 colcon build --symlink-install --packages-select realsense2_description realsense2_camera realsense2_camera_msgs
 
-# Setup Intel® RealSense™ ROS2 Environment
-source /opt/ros/foxy/setup.bash
-cd ~/ros2_ws
-source install/setup.bash
-
 # Create Intel® RealSense™ ROS2 UDEV Rule
 # Reference - [99-realsense-libusb.rules] (https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules "99-realsense-libusb.rules")
 sudo nano /etc/udev/rules.d/99-realsense-libusb.rules
@@ -94,6 +89,15 @@ rs-enumerate-devices
 
 # View Intel RealSense
 realsense-viewer
+```
+
+## Setp 5: Configure ROS2 Foxy, Intel® RealSense™ ROS2 Environment
+```bash
+# Setup ROS2 Foxy Environment
+source /opt/ros/foxy/setup.bash
+# Setup Intel® RealSense™ ROS2 Environment
+cd ~/ros2_ws
+source install/setup.bash
 ```
 
 # Usage
