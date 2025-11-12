@@ -136,4 +136,4 @@ ros2 run image_transport republish raw in:=/camera/color/image_raw compressed ou
 ```
 
 # Reference.
-[ROS2 Wrapper for Intel® RealSense™ Devices](https://github.com/vanderbiltrobotics/realsense-ros "ROS2 Wrapper for Intel® RealSense™ Devices")
+[ROS2 Wrapper for Intel® RealSense™ Devices](https://github.com/vanderbiltrobotics/realsense-ros)
